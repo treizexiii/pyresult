@@ -2,7 +2,6 @@ import pytest
 import re
 from pyresult import Some, None_, Option
 
-# Test de la création et des états
 
 def test_is_some_is_none():
     assert Some(10).is_some() is True
@@ -10,7 +9,6 @@ def test_is_some_is_none():
     assert None_().is_some() is False
     assert None_().is_none() is True
 
-# Test des fonctions unwrap
 
 def test_unwrap():
     assert Some(42).unwrap() == 42
@@ -20,32 +18,27 @@ def test_unwrap():
     with pytest.raises(ValueError, match=re.escape("Called unwrap() on a None")):
         None_().unwrap()
 
-# Test des transformations
 
 def test_map():
     assert Some(10).map(lambda x: x * 2) == Some(20)
     assert None_().map(lambda x: x * 2) == None_()
 
-# Test des fonctions combinatoires
 
 def test_and_then():
     assert Some(10).and_then(lambda x: Some(x * 2)) == Some(20)
     assert None_().and_then(lambda x: Some(x * 2)) == None_()
 
-# Test de filter
 
 def test_filter():
     assert Some(10).filter(lambda x: x > 5) == Some(10)
     assert Some(10).filter(lambda x: x < 5) == None_()
     assert None_().filter(lambda x: x > 5) == None_()
 
-# Test de map_or
 
 def test_map_or():
     assert Some(10).map_or(100, lambda x: x * 2) == 20
     assert None_().map_or(100, lambda x: x * 2) == 100
 
-# Test de expect
 
 def test_expect():
     assert Some(42).expect("Value expected") == 42
@@ -53,7 +46,6 @@ def test_expect():
     with pytest.raises(ValueError, match=re.escape("Value expected")):
         None_().expect("Value expected")
 
-# Test du pattern matching
 
 def test_match_option():
     option = Some(42)
@@ -69,3 +61,15 @@ def test_match_option():
             assert False
         case None_():
             assert True
+
+
+def test_some_as_string():
+    assert str(Some(42)) == "Some(42)"
+
+
+def test_is_not_some():
+    assert Some(42) != None_()
+
+
+def test_none_as_string():
+    assert str(None_()) == "None"

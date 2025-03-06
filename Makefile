@@ -1,6 +1,10 @@
 # Variables
 PACKAGE_NAME = pyresult
-PYTHON = python
+ifeq ($(OS),Windows_NT)
+	PYTHON = python
+else
+	PYTHON = python3
+endif
 PIP = pip
 PYTEST = pytest
 TWINE = twine
@@ -11,13 +15,23 @@ else
     SET_ENV = PYTHONPATH=src
 endif
 
+ifeq ($(OS),Windows_NT)
+	RM = rm .venv && rm build && rm dist && rm *.egg-info && rm __pycache__
+else
+	RM = rm -rf .venv build dist *.egg-info __pycache__
+endif
+
+setup:
+	$(PYTHON) -m venv .venv
+	. .venv/bin/activate
+
 # 📦 Installation des dépendances
 install:
 	$(PIP) install -r requirements.txt
 
 # 🔨 Build du package
 build:
-	$(PYTHON) setup.py sdist bdist_wheel
+	$(PYTHON) -m build
 
 # 🚀 Installation du package localement
 install-package:

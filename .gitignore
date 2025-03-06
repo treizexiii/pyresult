@@ -4,5 +4,6 @@ __pycache__
 .pytest_cache
 build
 dist
-pyresult.egg-info
 .coverage
+htmlcov
+*.egg-info

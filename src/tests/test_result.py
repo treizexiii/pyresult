@@ -1,4 +1,5 @@
 import pytest
+import re
 from pyresult import Result, Ok, Err
 
 # Test de la création et des états
@@ -16,13 +17,13 @@ def test_unwrap():
     assert Ok(42).unwrap_or(100) == 42
     assert Err("Error").unwrap_or(100) == 100
 
-    with pytest.raises(ValueError, match="Called unwrap() on an Err: Error"):
+    with pytest.raises(ValueError, match=re.escape("Called unwrap() on an Err: Error")):
         Err("Error").unwrap()
 
 def test_unwrap_err():
     assert Err("Failure").unwrap_err() == "Failure"
 
-    with pytest.raises(ValueError, match="Called unwrap_err() on an Ok: 42"):
+    with pytest.raises(ValueError, match=re.escape("Called unwrap_err() on an Ok: 42")):
         Ok(42).unwrap_err()
 
 # Test des transformations

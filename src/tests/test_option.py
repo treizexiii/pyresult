@@ -1,4 +1,5 @@
 import pytest
+import re
 from pyresult import Some, None_, Option
 
 # Test de la création et des états
@@ -16,7 +17,7 @@ def test_unwrap():
     assert Some(42).unwrap_or(100) == 42
     assert None_().unwrap_or(100) == 100
 
-    with pytest.raises(ValueError, match="Called unwrap() on a None"):
+    with pytest.raises(ValueError, match=re.escape("Called unwrap() on a None")):
         None_().unwrap()
 
 # Test des transformations
@@ -49,7 +50,7 @@ def test_map_or():
 def test_expect():
     assert Some(42).expect("Value expected") == 42
 
-    with pytest.raises(ValueError, match="Value expected"):
+    with pytest.raises(ValueError, match=re.escape("Value expected")):
         None_().expect("Value expected")
 
 # Test du pattern matching

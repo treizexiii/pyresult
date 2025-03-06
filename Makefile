@@ -5,6 +5,12 @@ PIP = pip
 PYTEST = pytest
 TWINE = twine
 
+ifeq ($(OS),Windows_NT)
+    SET_ENV = set PYTHONPATH=src &&
+else
+    SET_ENV = PYTHONPATH=src
+endif
+
 # 📦 Installation des dépendances
 install:
 	$(PIP) install -r requirements.txt
@@ -19,11 +25,11 @@ install-package:
 
 # 🧪 Lancer les tests avec pytest et coverage
 test:
-	PYTHONPATH=src $(PYTEST) --cov=$(PACKAGE_NAME) --cov-report=term-missing
+	$(SET_ENV) $(PYTEST) --cov=$(PACKAGE_NAME) --cov-report=term-missing
 
 # 📊 Générer un rapport HTML de couverture
 coverage:
-	PYTHONPATH=src $(PYTEST) --cov=$(PACKAGE_NAME) --cov-report=html
+	$(SET_ENV) $(PYTEST) --cov=$(PACKAGE_NAME) --cov-report=html
 	@echo "Ouvrir le rapport avec : xdg-open htmlcov/index.html"
 
 # 📤 Publier le package sur PyPI

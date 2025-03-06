@@ -1,5 +1,5 @@
 import pytest
-from ..pyresult import Result, Ok, Err
+from pyresult import Result, Ok, Err
 
 # Test de la création et des états
 

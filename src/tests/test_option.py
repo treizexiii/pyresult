@@ -1,5 +1,5 @@
 import pytest
-from ..pyresult import Option, Some, None_
+from pyresult import Some, None_, Option
 
 # Test de la création et des états
 
